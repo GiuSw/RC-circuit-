@@ -62,8 +62,8 @@ log_ltspice = np.log(E - tensions_ltspice)
 log_interp = np.interp(t_sperimentale, t_ltspice, log_ltspice)
 v_spice_interp_esponenziale = E - np.exp(log_interp)
 
-errore_punto_punto = tension_sperimentale - v_spice_interp_esponenziale
-
+errore_assoluto = np.abs(tension_sperimentale - v_spice_interp_esponenziale)
+errore_relativo_percentuale = (errore_assoluto / tension_sperimentale) * 100 
 sottomultipli = np.arange(-1, 5.1, 0.5)
 
 
@@ -92,14 +92,14 @@ plt.grid(True)
 
 plt.figure(figsize=(10, 5))
 
-plt.plot(t_sperimentale, errore_punto_punto, color="red", marker="o", linestyle="-", linewidth = 1, label="Errore ($V_{arduino} - V_{spice}$)")
-plt.axhline(0, color="black", linestyle="--", linewidth=1)
+# GRAFICO 2 errore relativo 
+plt.plot(t_sperimentale, errore_relativo_percentuale, color="red", linestyle="-", linewidth = 2, label="Errore Relativo")
 sottomultipli = np.arange(0, 5.1, 0.5)
 plt.xticks(sottomultipli)
 plt.xlim(0, 5)
-plt.title("Andamento dell'Errore di Tensione Punto per Punto")
+plt.title("Andamento dell'Errore Relativo Punto Punto nel Tempo")
 plt.xlabel("Tempo (s)")
-plt.ylabel("Differenza di Tensione (Volt)") 
+plt.ylabel("Errore Relativo (%)") 
 plt.grid(True)
 plt.legend()
 
